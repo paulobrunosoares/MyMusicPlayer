@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Music Website </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="fundo">
+    <div class="container">
+        <div class="navbar">
+            <img src="https://logosmarcas.net/wp-content/uploads/2020/11/Razer-Logo.png" class="logo">
+            <ul>     
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">ABOUD</a></li>
+            <li><a href="#">SPECIFICATIONS</a></li>
+            <li><a href="#">PRODUCTS</a></li>
+            <li><a href="#">CONNECT</a></li>
+          </ul> 
+        </div>
+        <div class="content">
+        <div class="left-col">
+        </div>
+        <div class="right-col">
+             <p id="titulo">titulo</p>
+             <img src="https://img.icons8.com/nolan/2x/end.png" id="previous">
+             <img src="https://img.icons8.com/nolan/2x/play.png" id="play">
+             <img src="https://img.icons8.com/nolan/2x/end.png" id="next">
+             <strong id="total">
+                00:00
+                </strong> 
+                <strong> / </strong>
+                <strong id="atual">
+                00:00
+                </strong>
+                <div id="volume-container">
+                    <input step="3" type="range" name="" id="volume">
+                <img src="https://img.icons8.com/nolan/2x/portable-speaker2.png" alt="">
+                </div>
+            </div>  
+            
+    </div>
+
+    <audio id="matue">     
+    </audio>
+   
+<script>
+    var musica = document.querySelector("#matue");
+    var play = document.querySelector("#play");
+    var next = document.querySelector("#next")
+    var titulo = document.querySelector("#titulo")
+    var previous = document.querySelector("#previous")
+    var total = document.querySelector("#total")
+    var total_atual = document.querySelector("#atual")
+    var tocando = false
+    var atual = 0
+    var fundo = document.querySelector(".container")
+    var volume = document.querySelector("#volume")
+    volume.addEventListener("change",function(){
+       
+        let vol=volume.value
+        if(vol<50){
+            musica.volume=0.5
+        }
+         if(vol==100){
+            musica.volume=1.0
+        }
+         if(vol==0){
+            musica.volume=0.0
+            console.log(volume.value);
+        }
+    })
+    var playlist = [
+        {
+            titulo:"Eu me rendo aos teus braços",
+            url:"Eu-me-rendo.mp3"
+        },
+        {
+            titulo:"Teto - M4 feat. Matuê",
+            url:"matue.mp3"
+        },
+        {
+            titulo:"DJ Matt-D - Homenagem Aos Relíquias 2.0",
+            url: "reliquias.m4a"
+        },
+        {
+            titulo:"DJ Matt-D - Homenagem aos Relíquias",
+            url:"reliquias1.0.m4a"
+        },
+        {
+            titulo:"30 Deep Grimeyy - Rockstar",
+            url:"rockstar.mp3"
+        },
+        {
+            titulo:"Abbot - _Hylander_ ft. Somynem.grin",
+            url:"aboot.m4a"
+        },
+        {
+            titulo:"ACABOU A ÁGUA TOMA BANHO DE LEITE",
+            url:"banho.m4a"
+        },
+        {
+            titulo:"Alok_ Bruno Martini feat. Zeeba - Hear Me Now",
+            url:"hearmenow.mp3"
+        },
+        {
+            titulo:"Alok_ Zeeba and IRO - Ocean",
+            url:"ocean.mp3"
+        },
+        {
+            titulo:"Alok_ Bruno Martini_ Zeeba - Never Let Me Go",
+            url:"mego.m4a"
+        },
+        {
+            titulo:"Blackbear - IDFC",
+            url:"blackbear.mp3"
+        },
+        {
+            titulo:"Blame (Tim Gunter Remix)",
+            url:"blame.mp3"
+        },
+        {
+            titulo:"BRUXO_ MARTELIN_ YUNG NOBRE _ QTZ TIVITYN  MEDLEY _THE BOX_",
+            url:"sofé.m4a"
+        },
+        {
+            titulo:"Bruno Mars - Locked Out Of Heaven",
+            url:"brunomars.mp3"
+        },
+        {
+            titulo:"Coloque seu fone de ouvido no máximo",
+            url:"intro.mp3"
+        },
+        {
+            titulo:"Daughter - Medicine (Sound Remedy Remix)",
+            url:"medicine.mp3"
+        },
+        {
+            titulo:"Drip da Roça",
+            url:"drip.m4a"
+        },
+        {
+            titulo:"GUXTA - CAMISA 21 ☔️",
+            url:"camisa21.m4a"
+        },
+        {
+            titulo:"Hippie Sabotage - Devil Eyes",
+            url:"hippie.mp3"
+        },
+        {
+            titulo:"Hungria Hip Hop - Amor e Fé",
+            url:"amorefé.mp3"
+        },
+        {
+            titulo:"Hungria hip hop - Um Pedido",
+            url:"umpedido.mp3"
+        },
+        {
+            titulo:"Hungria Hip Hop e MC Lipi - Um Brinde Pra Nós",
+            url:"umbrinde.m4a"
+        },
+        {
+            titulo:"ILUSÃO _CRACOLÂNDIA_ - Alok_ MC Hariel_ MC Davi_ MC Ryan SP_ Salvador da Rima e Djay W",
+            url:"alok.mp3"
+        },
+        {
+            titulo:"Ivan B - Sweaters",
+            url:"ivanb.mp3"
+        },
+        {
+            titulo:"JayA Luuck - Astro Nauta",
+            url:"jaya.m4a"
+        },
+        {
+            titulo:"JayA Luuck - Nemo",
+            url:"nemo.m4a"
+        },
+        {
+            titulo:"Jaymes Young - Infinity",
+            url:"infinity.mp3"
+        },
+        {
+            titulo:"Jorge _ Mateus - Pra Sempre Com Você",
+            url:"prasempre.mp3"
+        },
+        {
+            titulo:"Jovem Dex - NAV",
+            url:"jovem.mp3"
+        },
+        {
+            titulo:"Kalli - Kallidade",
+            url:"kalli.m4a"
+        },
+        {
+            titulo:"Kant ft. Krawk_ Nog - Oh Shit _ Prod.",
+            url:"ohshit.m4a"
+        },
+        {
+            titulo:"Kant ft. Nog e Spinardi - Click Clack Bum",
+            url:"click.m4a"
+        },
+        {
+            titulo:"Kawe - Gigante",
+            url:"gigante.m4a"
+        },
+        {
+            titulo:"Kawe - Iluminado",
+            url:"iluminado.m4a"
+        },
+        {
+            titulo:"Kawe _ Lele JP - MDS",
+            url:"mds.m4a"
+        },
+        {
+            titulo:"Kawe _ Mikezin - Brilho",
+            url:"brilho.m4a"
+        },
+        {
+            titulo:"Krawk ft. Kant - BMW MONSTRA",
+            url:"bmw.m4a"
+        },
+        {
+            titulo:"Lil Peep _ XXXTENTACION - Falling Down",
+            url:"fallingdown.mp3"
+        },
+        {
+            titulo:"lil peep - star shopping",
+            url:"star.mp3"
+        },
+        {
+            titulo:"Linkin Park - In The End",
+            url:"intheend.mp3"
+        },
+        {
+            titulo:"Matuê - Kenny G",
+            url:"kenny.m4a"
+        },
+        {
+            titulo:"Mc Jacaré e JS o Mão De Ouro - Melhorar Meu Dia _ Brega Funk",
+            url:"melhorar.m4a"
+        },
+        {
+            titulo:"MC Laranjinha - Ligou Na Madruga",
+            url:"ligou.m4a"
+        },
+        {
+            titulo:"MC Lipi - Essa Aqui Eu Vou Canta Pra Aquela Professora - Só Gratidão",
+            url:"essa.mp3"
+        },
+        {
+            titulo:"MC Lipi - Vitória Chegou",
+            url:"vitoria.mp3"
+        },
+        {
+            titulo:"MC Marks - Alimente Sua Fé - DJ OG Beatz",
+            url:"alimente.m4a"
+        },
+        {
+            titulo:"MC Marks - Céu de Pipa - DJ Muka",
+            url:"ceu.mp3"
+        },
+        {
+            titulo:"MC Marks - Deus é por Nós -  Dj Muka",
+            url:"Deus.mp3"
+        },
+        {
+            titulo:"MC Marks - Jesus Olhou pra mim",
+            url:"Jesus.mp3"
+        },
+        {
+            titulo:"Mc Marks e Mc Robs - Fé no Pobre Louco",
+            url:"fe.m4a"
+        },
+        {
+            titulo:"MC Menor da VG - Canto da Sereia",
+            url:"sereia.m4a"
+        },
+        {
+            titulo:"MC Neguinho do Kaxeta - Louco e Sonhador",
+            url:"louco.m4a"
+        },
+        {
+            titulo:"MC Paulin da Capital - Acredita",
+            url:"acredita.m4a"
+        },
+        {
+            titulo:"MC Paulin da Capital - Eu achei",
+            url:"eu.mp3"
+        },
+        {
+            titulo:"MC Paulin da Capital - Morena",
+            url:"morena.m4a"
+        },
+        {
+            titulo:"MC Rick e Mc Vittin PV - Cupido FDP 2",
+            url:"cupido.m4a"
+        },
+        {
+            titulo:"MC Ryan SP e Salvador da Rima - Conto as Horas",
+            url:"conto.m4a"
+        },
+        {
+            titulo:"mc torugo ak-47 é o porte do homem",
+            url:"torugo.m4a"
+        },
+        {
+            titulo:"MC Vitin do LJ_ MC Marley e MC Luan da BS - Privilégio",
+            url:"privilegio.m4a"
+        },
+        {
+            titulo:"MTG - SARRA NA GLOOCK DO CHEFE - SÓ VOCÊ NÃO ENTENDEU",
+            url:"glock.m4a"
+        },
+        {
+            titulo:"Não Cheguei - Guxta ft. LOUD Coringa",
+            url:"loud.m4a"
+        },
+        {
+            titulo:"Os Barões da Pisadinha - Ta Rocheda)",
+            url:"ta.mp3"
+        },
+        {
+            titulo:"Poesia Acústica _6 - Era Uma Vez - Mc Cabelinho_ Orochi_ Bob_ Maquiny_ Azzy_ Filipe Ret_ Dudu_ Xami",
+            url:"poesia.mp3"
+        },
+        {
+            titulo:"Rema - Fame _ A COLORS ENCORE",
+            url:"fame.m4a"
+        },
+        {
+            titulo:"Roddy Ricch - The Box",
+            url:"box.mp3"
+        },
+        {
+            titulo:"Salvador - _Vergonha Pra Mídia",
+            url:"vergonha.mp3"
+        },
+        {
+            titulo:"Salvador da Rima - Estilo Coyote",
+            url:"estilo.m4a"
+        },
+
+        {
+            titulo:"Sarah Blasko - All I Want",
+            url:"sarah.mp3"    
+        },
+        { 
+            titulo:"Skylar Grey - goosebumps",
+            url:"skylar.m4a"
+        },
+        { 
+            titulo:"Soulchef - Write This Down x Dead Wrong",
+            url:"write.mp3"
+        },
+        { 
+            titulo:"Sub Urban - Freak",
+            url:"sub.mp3"
+        },
+        { 
+            titulo:"_Sweater Weather_ - The Neighbourhood",
+            url:"sweater.mp3"
+        },
+        { 
+            titulo:"TAPÃO NA RABA- RAI SAIA RODADA",
+            url:"saia.m4a"
+        },
+        { 
+            titulo:"TARCÍSIO DO ACORDEON E DJ IVIS - ELA RODA A CIDADE INTEIRA PRA FICAR COMIGO",
+            url:"ela.m4a"
+        },
+        { 
+            titulo:"Teto - PayPal",
+            url:"paypal.m4a"
+        },
+        { 
+            titulo:"timmies - ugly",
+            url:"ugly.mp3"
+        },
+        { 
+            titulo:"Trevor Daniel - Falling",
+            url:"trevor.mp3"
+        },
+        { 
+            titulo:"TZ DA CORONEL - ANOTA PLACA",
+            url:"anota.m4a"
+        },
+        { 
+            titulo:"VEM SENTANDO VEM - TIKTOK - MC 2Jhow_ MC Rennan e MC Fahah",
+            url:"tik.m4a"
+        },
+        { 
+            titulo:"The Weeknd - The Hills",
+            url:"the.mp3"
+        },
+        { 
+            titulo:"Welisson - É tão bom",
+            url:"tambom.m4a"
+        },
+        { 
+            titulo:"Wiz Khalifa - Say So",
+            url:"say.mp3"
+        },
+        { 
+            titulo:"MC Hariel - Fazendo Amor",
+            url:"fazendo.m4a"
+        },
+        { 
+            titulo:"Sidoka - n me sinto mal mais",
+            url:"sintomal.m4a"
+        },
+        { 
+            titulo:"Duncan Laurence - Arcade",
+            url:"arcade.m4a"
+        },
+        { 
+            titulo:"Red Silhouette challenge - put your head on my shoulder x streets",
+            url:"putyour.m4a"
+        },
+        { 
+            titulo:"MC VITIN LC_ MC ANJIM E MC VH DINIZ - FALADOR QUER FALA MAL",
+            url:"falador.m4a"
+        },
+        { 
+            titulo:"POR CIMA TU TA DE MAIS  - MTG 2020",
+            url:"porcima.m4a"
+        },
+        { 
+            titulo:"PiuTrap - ROCKSTAR",
+            url:"rockstar.m4a"
+        },
+        { 
+            titulo:"PiuTrap - TORETTO",
+            url:"toretto.m4a"
+        },
+        { 
+            titulo:"PiuTrap - LEEN BACK",
+            url:"leen.m4a"
+        },
+        { 
+            titulo:"PiuTrap - MONALIZA",
+            url:"monoliza.m4a"
+        },
+        { 
+            titulo:"PiuTrap - POST MALONE ft.Ceveriin",
+            url:"post.m4a"
+        },
+        { 
+            titulo:"Only - Dollar",
+            url:"dollar.m4a"
+        },
+        { 
+            titulo:"SET DJ Pedro 4.0 - Brinquedo_ Kevin_ Davi_ LBX_ Ryan SP_ IG_ PH_ Brisola_ Thiago e Menor da C3",
+            url:"4.0.m4a"
+        },
+        {
+            titulo:"Post Malone - Congratulations ft. Quavo",
+            url:"post.mp3"
+        },
+        {
+            titulo:"Oceans - Hillsong United",
+            url:"united.mp3"
+        },
+        {
+            titulo:"MC Leozinho ZS - Diga Vida Como Eu Fasso Pra Entra Na Sua História",
+            url:"diga.m4a"
+
+        },
+        {
+            titulo:"Bazzi- Fantasy",
+            url:"fantasy.mp3"
+        },
+        {
+            titulo:"Maribou State - Tongue",
+            url:"tongue.m4a"
+
+        },
+        {
+            titulo:"Love Acústico Set DJ Totu - MC_s Paulin da Capital_ Lele JP_ Barone_ Suh_ Nathan ZK_",
+            url:"love.m4a"
+
+        },
+        {
+            titulo:"Lilly Wood _ The Prick and Robin Schulz",
+            url:"lilly.mp3"
+
+        },
+        {
+            titulo:"Jo Cohen _ Sex Whales - We Are",
+            url:"jo.mp3"
+
+        },
+        {
+            titulo:"Jay-Z feat. Alicia Keys - Empire State of Mind Off",
+            url:"empire.mp3"
+
+        },
+        {
+            titulo:"Imagine Dragons - Believer",
+            url:"believer.mp3"
+
+        },
+        {
+            titulo:"Gabrielle Aplin - Home",
+            url:"home.mp3"
+
+        },
+        {
+            titulo:"Cesar MC - Canção Infantil part. Cristal",
+            url:"cesar.mp3"
+
+        },
+        {
+            titulo:"Cacife Clandestino - Ku_h",
+            url:"cacife.mp3"
+        }
+    ]
+    next.addEventListener("click",function(){
+        atual++
+          if(atual <= playlist.length-1){
+              titulo.innerHTML=playlist[atual].titulo
+            musica.src = playlist[atual].url
+            musica.load()
+            musica.play()
+          }else{
+            atual = playlist.length-1
+          }
+          console.log(atual);
+    })
+    previous.addEventListener("click",function(){
+        atual--
+        if(atual==-1){
+            atual = 0
+        }
+          if(atual ==0||atual !=0){
+            titulo.innerHTML=playlist[atual].titulo
+            musica.src = playlist[atual].url
+            musica.load()
+            musica.play()
+          }else{
+            atual = 0
+          }
+          console.log(atual); 
+    })
+    play.addEventListener("click",function(){
+        console.log(playlist.length);
+        if(tocando){
+            tocando = false
+            play.src = "https://img.icons8.com/nolan/2x/play.png"           
+            musica.pause()  
+            fundo.style.backgroundImage = "url('https://i.ytimg.com/vi/RMqaBAg6bc0/maxresdefault.jpg')"
+        }else{ 
+            tocando = true
+            play.src = "https://img.icons8.com/nolan/2x/pause.png" 
+            musica.play()
+            fundo.style.backgroundImage = "url('https://i.pinimg.com/originals/0a/54/ef/0a54ef17f9414b707278320da87680ea.gif')";
+           
+        }
+        
+    })
+    window.onload=function(){
+        musica.src = playlist[atual].url
+        musica.play()
+            titulo.innerHTML=playlist[atual].titulo
+    }
+function getTimeTotal(duracao) {
+
+let minutos =  Math.floor((duracao / 60) % 60)
+let segundos = Math.floor(duracao) % 60
+
+return segundos < 10 ? `0${minutos}:0${segundos} `:` ${minutos}:${segundos}`
+}
+function getTimeAtual(duracao){
+
+let minutos = Math.floor((duracao / 60) % 60)
+let segundos = Math.floor(duracao % 60)
+
+return segundos < 10 ? `0${minutos}:0${segundos} `:` ${minutos}:${segundos}`
+}
+
+musica.addEventListener("timeupdate", () => {
+if(!isNaN(musica.duration)){
+total.innerHTML=getTimeTotal(musica.duration)
+total_atual.innerHTML=getTimeAtual(musica.currentTime)
+}
+})
+
+</script>
+
+</body>
+</html>
